@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year!</title>
+
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px; /* extra padding for phones */
+        }
+
+        .container {
+            text-align: center;
+            z-index: 20;   /* Make button clickable */
+            position: relative;
+            width: 100%;
+            max-width: 450px; /* perfect phone size */
+        }
+
+        h1 {
+            font-size: 25px;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .year {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 2s ease-in 1s forwards;
+        }
+
+        .surprise-btn {
+            margin-top: 35px;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 2s ease-in 2s forwards;
+            z-index: 30;
+            position: relative;
+        }
+
+        .surprise-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .celebration {
+            font-size: 1.6rem;
+            color: #ffd700;
+            margin-top: 20px;
+            animation: pulse 0.5s ease-in-out infinite;
+        }
+
+        .wish-message {
+            max-width: 100%;
+            margin: 25px auto;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: scale(0.8);
+            animation: slideIn 0.8s ease-out forwards;
+        }
+
+        .wish-message h2 {
+            font-size: 1rem;
+            color: #ffd700;
+            margin-bottom: 12px;
+        }
+
+        .wish-message p {
+            font-size: 1rem;
+            color: #fff;
+            line-height: 1.7;
+        }
+
+        .wish-signature {
+            margin-top: 18px;
+            color: #feca57;
+            font-style: italic;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Fireworks behind content */
+        .firework, .confetti {
+            z-index: 5;
+        }
+
+        /* ========= Animations ========= */
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(255, 255, 255, 0.9); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes slideIn {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.3rem; }
+            .year { font-size: 4rem; }
+            .message { font-size: 1rem; }
+            .surprise-btn { font-size: 1rem; padding: 12px 25px; }
+            .wish-message p { font-size: 1rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🎉 Happy New Year! 🎉</h1>
+        <div class="year">2026</div>
+        <p class="message">Wishing you joy, success, and amazing adventures!</p>
+
+        <button class="surprise-btn" onclick="startCelebration()">Click for Surprise! 🎊</button>
+
+        <div class="celebration hidden" id="celebration">
+            ✨ May all your dreams come true! ✨
+        </div>
+
+        <div class="wish-message hidden" id="wishMessage">
+            <h2>🌟 A Special Wish For You 🌟</h2>
+            <p>May this new year bring you endless happiness, success and joy!</p>
+            <p>Wishing you love, peace and incredible memories all year long!</p>
+            <p class="wish-signature">Wishing you the best year yet! 🎆✨</p>
+        </div>
+    </div>
+
+<script>
+    function createFirework(x, y) {
+        const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff'];
+        for (let i = 0; i < 30; i++) {
+            const firework = document.createElement("div");
+            firework.className = "firework";
+            firework.style.position = "absolute";
+            firework.style.width = "5px";
+            firework.style.height = "5px";
+            firework.style.borderRadius = "50%";
+            firework.style.left = x + "px";
+            firework.style.top = y + "px";
+            firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            const angle = (Math.PI * 2 * i) / 30;
+            const velocity = 50 + Math.random() * 50;
+
+            firework.style.transition = "transform 1s ease-out, opacity 1s ease-out";
+            setTimeout(() => {
+                firework.style.transform = `translate(${Math.cos(angle) * velocity}px, ${Math.sin(angle) * velocity}px)`;
+                firework.style.opacity = 0;
+            }, 10);
+
+            document.body.appendChild(firework);
+            setTimeout(() => firework.remove(), 1000);
+        }
+    }
+
+    function createConfetti() {
+        const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#ffd700'];
+        for (let i = 0; i < 100; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement("div");
+                confetti.className = "confetti";
+                confetti.style.position = "absolute";
+                confetti.style.width = "10px";
+                confetti.style.height = "10px";
+                confetti.style.left = Math.random() * window.innerWidth + "px";
+                confetti.style.top = "-10px";
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.transition = "transform 3s linear, opacity 3s linear";
+
+                setTimeout(() => {
+                    confetti.style.transform = "translateY(100vh) rotate(360deg)";
+                    confetti.style.opacity = 0;
+                }, 10);
+
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }, i * 30);
+        }
+    }
+
+    function startCelebration() {
+        document.getElementById("celebration").classList.remove("hidden");
+        document.getElementById("wishMessage").classList.remove("hidden");
+        event.target.style.display = "none";
+
+        createConfetti();
+
+        const interval = setInterval(() => {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            createFirework(x, y);
+        }, 300);
+
+        setTimeout(() => clearInterval(interval), 5000);
+    }
+
+</script>
+
+</body>
+</html>
