@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year! 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Styling Requirements & Animation Keyframes */
+        :root {
+            --bg-dark: #0a0a2a;
+            --accent-gold: #ffdd57;
+            --accent-red: #ff4757;
+            --text-light: #ffffff;
+            --transition-speed: 0.5s;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden; /* Prevent horizontal scroll from minor animations */
+        }
+
+        /* --- 2. Container Fade-in/Bounce Animation --- */
+        @keyframes containerLoad {
+            0% { transform: translateY(-50px); opacity: 0; }
+            80% { transform: translateY(5px); opacity: 1; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 40px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 50px rgba(255, 221, 87, 0.1);
+            
+            /* Apply the animation on load */
+            animation: containerLoad 1s ease-out forwards;
+        }
+
+        /* --- 1. Header Typing Animation --- */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-gold); }
+        }
+
+        h1 {
+            font-size: 3em;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 221, 87, 0.5);
+            
+            /* Typing effect setup */
+            overflow: hidden; /* Ensures text is hidden before typing */
+            white-space: nowrap; /* Keeps the text on a single line */
+            width: 0; /* Initial width for typing */
+            animation: 
+                typing 3s steps(30, end) forwards,
+                blink-caret 0.75s step-end infinite;
+            border-right: .15em solid var(--accent-gold); /* The blinking cursor */
+        }
+
+        /* Stop the blinking cursor after the typing animation finishes */
+        .container:hover h1 { /* Use :hover or JS to remove blink when text is fully displayed */
+             border-color: transparent;
+        }
+        
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        /* --- 3. Button Shake Animation Keyframes --- */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) scale(1.05); }
+            20%, 60% { transform: translateX(-10px) scale(1.05); }
+            40%, 80% { transform: translateX(10px) scale(1.05); }
+        }
+
+        /* Button Styling */
+        #wishButton {
+            background-color: var(--accent-red);
+            color: var(--text-light);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5em;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.5);
+            outline: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Subtle Hover Effect */
+        #wishButton:hover:not(:disabled) {
+            background-color: #ff6b81;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.7);
+        }
+        
+        /* Apply shake animation via JS class */
+        .button-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        #wishButton:disabled {
+            background-color: #484848;
+            cursor: not-allowed;
+            transform: scale(1);
+            box-shadow: none;
+        }
+
+        /* Wish Message Styling (Reveal Animation) */
+        #wishMessage {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            margin-top: 30px;
+            font-size: 0; 
+
+            color: var(--accent-gold);
+            font-weight: 700;
+            padding: 20px;
+            border: 2px solid var(--accent-gold);
+            border-radius: 10px;
+            line-height: 1.5;
+            transition: opacity var(--transition-speed), height var(--transition-speed), font-size var(--transition-speed), padding var(--transition-speed);
+            
+            text-shadow: 0 0 10px rgba(255, 221, 87, 0.8);
+        }
+
+        /* Class for the reveal animation */
+        .revealed {
+            opacity: 1 !important;
+            height: auto !important;
+            font-size: 1.8em !important; 
+            padding: 30px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="mainHeader">Ringing in the New Year!</h1>
+
+        <p>Click the button below to receive your special New Year's wish!</p>
+
+        <button id="wishButton">Reveal My Wish!</button>
+
+        <p id="wishMessage"></p>
+    </div>
+
+    <script>
+        // JavaScript Requirements
+        document.addEventListener('DOMContentLoaded', () => {
+            const wishButton = document.getElementById('wishButton');
+            const wishMessage = document.getElementById('wishMessage');
+            const mainHeader = document.getElementById('mainHeader');
+            
+            const newYearWish = "🎉 May your New Year be filled with joy, prosperity, and countless new adventures! Happy 2026! 🥂";
+
+            // Listen for the typing animation to finish and remove the cursor (border-right)
+            mainHeader.addEventListener('animationend', (event) => {
+                if (event.animationName === 'typing') {
+                    mainHeader.style.borderRight = 'none';
+                }
+            });
+
+            // Event Listener
+            wishButton.addEventListener('click', () => {
+                
+                // 1. Trigger the Button Shake Animation
+                wishButton.classList.add('button-shake');
+                
+                // Use setTimeout to remove the shake class after the animation ends
+                setTimeout(() => {
+                    wishButton.classList.remove('button-shake');
+                }, 500); 
+
+                // 2. Set the wish message
+                wishMessage.innerText = newYearWish;
+
+                // 3. Animate the reveal: Make the wishMessage element visible
+                setTimeout(() => {
+                    wishMessage.classList.add('revealed');
+                }, 100); // Give a slight pause after the shake starts
+
+                // 4. Disable the button and change its text
+                wishButton.disabled = true;
+                setTimeout(() => {
+                    wishButton.innerText = "Wish Revealed! ✨";
+                }, 400); // Wait for the shake to mostly finish before changing text
+            });
+        });
+    </script>
+</body>
+</html>
