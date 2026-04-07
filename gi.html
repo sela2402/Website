@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Message For You ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose:     #c94070;
+    --rose-lt:  #f7d0dc;
+    --blush:    #fdf0f4;
+    --petal:    #f9e0e8;
+    --deep:     #6b1f38;
+    --gold:     #d4966a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    min-height: 100vh;
+    background: var(--blush);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'EB Garamond', Georgia, serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Floating petals background */
+  .bg-petals {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .petal {
+    position: absolute;
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0%   { transform: translateY(-60px) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.4; }
+    90%  { opacity: 0.25; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Card */
+  .card {
+    position: relative;
+    z-index: 1;
+    background: white;
+    border-radius: 32px;
+    padding: 60px 52px 52px;
+    max-width: 520px;
+    width: 92%;
+    text-align: center;
+    box-shadow:
+      0 4px 40px rgba(201, 64, 112, 0.10),
+      0 1px 4px rgba(201, 64, 112, 0.06);
+    border: 1px solid var(--rose-lt);
+    animation: cardIn 1.2s cubic-bezier(.22,.9,.36,1) both;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(36px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Decorative top border */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 80px; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--rose), transparent);
+    border-radius: 0 0 4px 4px;
+  }
+
+  /* Rose ornament */
+  .ornament {
+    font-size: 13px;
+    letter-spacing: 8px;
+    color: var(--rose);
+    opacity: 0.55;
+    margin-bottom: 20px;
+    animation: fadeUp 1s .3s both;
+  }
+
+  /* Heart */
+  .heart-wrap {
+    margin: 0 auto 28px;
+    width: 72px; height: 72px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--petal);
+    border-radius: 50%;
+    animation: fadeUp 1s .5s both, pulse 3s 1.5s ease-in-out infinite;
+  }
+
+  .heart-wrap span { font-size: 36px; line-height: 1; }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.07); }
+  }
+
+  /* Eyebrow */
+  .eyebrow {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    animation: fadeUp 1s .6s both;
+  }
+
+  /* Message */
+  .message {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 24px;
+    line-height: 1.95;
+    color: var(--deep);
+    font-style: italic;
+    font-weight: 300;
+    animation: fadeUp 1s .75s both;
+  }
+
+  .message .to {
+    display: block;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 26px;
+    color: var(--rose);
+    margin-bottom: 10px;
+  }
+
+  .message .forever {
+    display: block;
+    margin-top: 10px;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--rose);
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 36px 0 32px;
+    animation: fadeUp 1s .9s both;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rose-lt), transparent);
+  }
+  .divider span {
+    font-size: 18px;
+    color: var(--rose);
+    opacity: 0.6;
+  }
+
+  /* Footer */
+  .footer {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rose);
+    opacity: 0.5;
+    animation: fadeUp 1s 1.1s both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .card { padding: 44px 28px 36px; }
+    .message { font-size: 20px; }
+    .message .to, .message .forever { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Falling petals -->
+<div class="bg-petals" id="petals"></div>
+
+<div class="card">
+  <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+  <div class="heart-wrap"><span>❤️</span></div>
+  <div class="eyebrow">A message from the heart</div>
+
+  <p class="message">
+    <span class="to">Dear my little princes ❤️,</span>
+    បងសង្ឃឹមថាអូនននឹងពេញចិត្តនឹងសៀវភៅមួយនេះ។
+    ថ្ងៃbirthdayរបស់អូនបងមិនមានអ្វីឲ្យ ហើយនេះជាសៀវភៅ
+    ដែលបងឲ្យអូនចាប់ទុកថាជាកាដូថ្ងៃbirthday។You are my 
+    first love and i always love you and you always
+     in my mind😘😘😘😘💕💕💕❤️❤️❤️❤️❤️❤️❤️​<br>
+    <span class="forever">Forever.</span>
+  </p>
+
+  <div class="divider"><span>✦</span></div>
+  <div class="footer">Made with love &nbsp;❤️</div>
+</div>
+
+<script>
+  // Generate falling rose petals
+  const container = document.getElementById('petals');
+  const colors = ['#f7c5d0','#f5b3c5','#f9dde5','#fce0ea','#f0a8be'];
+
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = 8 + Math.random() * 12;
+    p.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      left: ${Math.random() * 100}%;
+      animation-duration: ${7 + Math.random() * 8}s;
+      animation-delay: ${-Math.random() * 12}s;
+      border-radius: ${40 + Math.random() * 20}% 0 ${40 + Math.random() * 20}% 0;
+    `;
+    container.appendChild(p);
+  }
+</script>
+</body>
+</html>
